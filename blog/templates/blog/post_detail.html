@@ -18,6 +18,7 @@
 
   <!-- Custom styles for this template -->
   <link rel="stylesheet" href="{% static 'blog/css/blog-post.css' %}" media="screen">
+  <script src="https://kit.fontawesome.com/2dfdfa8449.js" crossorigin="anonymous"></script>
 
 </head>
 
@@ -81,12 +82,30 @@
         {% else %}
           <img class="img-fluid rounded" src="https://picsum.photos/seed/{{ post.id }}/800/200" alt="random_image">
         {% endif %}
-        
+
 
         <hr>
 
         <!-- Post Content -->
         <p>{{ post.content }}</p>
+
+        {% if post.file_upload %}
+          <a href="{{ post.file_upload.url }}" class="btn btn-outline-dark" role="button" download>
+            Download:
+
+            {% if post.get_file_ext == 'csv' %}
+              <i class="fas fa-file-csv"></i>
+            {% elif post.get_file_ext == 'xlsx' or post.get_file_ext == 'xls' %}
+              <i class="fas fa-file-excel"></i>
+            {% elif post.get_file_ext == 'docx' or post.get_file_ext == 'doc' %}
+              <i class="fas fa-file-word"></i>
+            {% else %}
+              <i class="far fa-file"></i>
+            {% endif %}
+
+            {{ post.get_file_name }}
+          </a>
+        {% endif %}
 
         <hr>
 
