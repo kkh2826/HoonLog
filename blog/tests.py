@@ -10,6 +10,8 @@ class TestView(TestCase):
         self.client = Client()
         self.user_kyounghoon1 = User.objects.create_user(username='kyounghoon1', password='somepassword1')
         self.user_kyounghoon2 = User.objects.create_user(username='kyounghoon2', password='somepassword2')
+        self.user_kyounghoon2.is_staff = True
+        self.user_kyounghoon2.save()
 
         self.category_programming = Category.objects.create(name='programming', slug='programming')
         self.category_music = Category.objects.create(name='music', slug='music')
@@ -194,8 +196,13 @@ class TestView(TestCase):
         response = self.client.get('/blog/create_post/')
         self.assertNotEqual(response.status_code, 200)
 
-        # 로그인을 한다.
+        # staff가 아닌 kyounghoon1이 로그인을 한다.
         self.client.login(username='kyounghoon1', password='somepassword1')
+        response = self.client.get('/blog/create_post/')
+        self.assertNotEqual(response.status_code, 200)
+
+        # staff인 kyounghoon2가 로그인을 한다.
+        self.client.login(username='kyounghoon2', password='somepassword2')
 
         response = self.client.get('/blog/create_post/')
         self.assertEqual(response.status_code, 200)
@@ -214,4 +221,4 @@ class TestView(TestCase):
         )
         last_post = Post.objects.last()
         self.assertEqual(last_post.title, 'Post Form 만들기')
-        self.assertEqual(last_post.author.username, 'kyounghoon1')
+        self.assertEqual(last_post.author.username, 'kyounghoon2')
