@@ -9,36 +9,13 @@ from django.db.models import Q
 
 
 # Create your views here.
-
-#######################################
-####### FBV 형태로 구현한 코드 ###########
-#######################################
-# def index(request):
-#     posts = Post.objects.all().order_by('-pk')
-#
-#     return render(
-#         request,
-#         'blog/post_list.html',
-#         {
-#             'posts': posts,
-#         }
-#     )
-#
-#
-# def single_post_page(request, pk):
-#     post = Post.objects.get(pk=pk)
-#
-#     return render(
-#         request,
-#         'blog/post_detail.html',
-#         {
-#             'post': post,
-#         }
-#     )
-#######################################
-
 #######################################
 ####### CBV 형태로 구현한 코드 ###########
+#######################################
+
+
+#######################################
+######### 게시물 생성 Class  ###########
 #######################################
 class PostCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Post
@@ -53,6 +30,7 @@ class PostCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             form.instance.author = current_user
             response = super(PostCreate, self).form_valid(form)
 
+            # 입력한 tag에 대해 분리해서 저장.
             tags_str = self.request.POST.get('tags_str')
             if tags_str:
                 tags_str = tags_str.strip()
@@ -61,6 +39,9 @@ class PostCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
                 for t in tags_list:
                     t = t.strip()
+                    # get_or_create - 객체가 존재할 경우 해당 객체를 가져오고 없는 경우 생성.
+                    # Tuple 형식으로 반환
+                    # 첫 번째 인자 - object / 두 번째 인자 - Boolean(생성 = True, 생성X = False)
                     tag, is_tag_created = Tag.objects.get_or_create(name=t)
                     if is_tag_created:
                         tag.slug = slugify(t, allow_unicode=True)
@@ -72,6 +53,10 @@ class PostCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             return redirect('/blog/')
 
 
+
+#######################################
+######### 게시물 목록 Class  ###########
+#######################################
 class PostList(ListView):
     model = Post
     ordering = '-pk'
@@ -84,6 +69,9 @@ class PostList(ListView):
         return context
 
 
+#######################################
+######### 게시물 상세 Class  ###########
+#######################################
 class PostDetail(DetailView):
     model = Post
 
@@ -95,6 +83,9 @@ class PostDetail(DetailView):
         return context
 
 
+#######################################
+######### 게시물 수정 Class  ###########
+#######################################
 class PostUpdate(LoginRequiredMixin, UpdateView):
     model = Post
     fields = ['title', 'hook_text', 'content', 'head_image', 'file_upload', 'category']
@@ -121,7 +112,9 @@ class PostUpdate(LoginRequiredMixin, UpdateView):
 
         return response
 
+    # dispatch - Generic View에 내장되어 있는 메소드
     def dispatch(self, request, *args, **kwargs):
+        # get_object() - User.objects.get(pk=pk)
         if request.user.is_authenticated and request.user == self.get_object().author:
             return super(PostUpdate, self).dispatch(request, *args, **kwargs)
         else:
@@ -138,6 +131,10 @@ class PostUpdate(LoginRequiredMixin, UpdateView):
         return context
 
 
+##################################################
+####### Category 별 게시물 목록  ##################
+#### 카테고리 클릭 시, 해당 카테고리 게시물 목록 ####
+##################################################
 def category_page(request, slug):
     if slug == 'no_category':
         category = '미분류'
@@ -158,6 +155,10 @@ def category_page(request, slug):
     )
 
 
+##################################################
+####### Tag 별 게시물 목록  #######################
+###### Tag 클릭 시, 해당 카테고리 게시물 목록 ######
+##################################################
 def tag_page(request, slug):
     tag = Tag.objects.get(slug=slug)
     post_list = tag.post_set.all()
@@ -174,6 +175,9 @@ def tag_page(request, slug):
     )
 
 
+#######################################
+########### 댓글 생성 함수  ############
+#######################################
 def new_comment(request, pk):
     if request.user.is_authenticated:
         post = get_object_or_404(Post, pk=pk)
@@ -192,6 +196,9 @@ def new_comment(request, pk):
         raise PermissionDenied
 
 
+#######################################
+########### 댓글 수정 함수  ############
+#######################################
 class CommentUpdate(LoginRequiredMixin, UpdateView):
     model = Comment
     form_class = CommentForm
@@ -203,6 +210,9 @@ class CommentUpdate(LoginRequiredMixin, UpdateView):
             raise PermissionDenied
 
 
+#######################################
+########### 댓글 삭제 함수  ############
+#######################################
 def delete_comment(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
     post = comment.post
