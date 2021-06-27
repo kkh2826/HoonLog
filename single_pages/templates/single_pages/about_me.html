@@ -1,18 +1,185 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>경훈소개페이지</title>
+    <title>About 경훈</title>
+
+    <link rel="stylesheet" href="{% static 'blog/bootstrap/bootstrap.min.css' %}" media="screen">
+    <link rel="stylesheet" href="{% static 'single_pages/css/about_me.css' %}" media="screen">
+
+    <script src="https://kit.fontawesome.com/726bbd6862.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <nav>
-        <a href="/blog/">Blog</a>
-        <a href="/about_me/">About Me</a>
-    </nav>
 
-    <h1>안녕하세요. 경훈's Blog 입니다.</h1>
-    <h2>이력</h2>
-    <h2>Portfolio</h2>
-    <h3>아직 공사중.</h3>
+    {% include 'blog/navbar.html' %}
+
+    <section>
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h1>안녕하세요. 경훈 입니다.</h1>
+                    <br />
+                    <p class="lead">
+                        개발 실력이 늘지 않는 개발자입니다.<br/>
+                        공부를 해도 늘지 않는 의문의 개발자입니다.
+                    </p>
+
+                    <ul>
+                        <li>경력</li>
+                        <ul>
+                            <li>한국자산평가 - 프로그램개발 (2019.09 ~)</li>
+                        </ul>
+                        <li>학력</li>
+                        <ul>
+                            <li>xx고등학교 (2010.03 ~ 2013.02)</li>
+                            <li>xx대학교 - 컴퓨터공학과 (2014.03 ~ 2020.02)</li>
+                        </ul>
+                        <li>취미</li>
+                        <ul>
+                            <li>다양한 운동 - 축구 / 헬스</li>
+                            <li>카페가기</li>
+                            <li>쇼핑하기</li>
+                        </ul>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <img class="img-fluid" src="{% static 'single_pages/images/my_back.jpeg' %}">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-light margin-for-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h1>Language</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card" data-toggle="modal" data-target="#csharp">
+                        <img class="card-img-top" src="{% static 'single_pages/images/CSharp.jpg' %}">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">C# 프로그래밍</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card" data-toggle="modal" data-target="#django">
+                        <img class="card-img-top" src="{% static 'single_pages/images/DJango.jpeg' %}">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Django & Python</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card" data-toggle="modal" data-target="#react">
+                        <img class="card-img-top" src="{% static 'single_pages/images/React.png' %}">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">React JS</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div class="modal fade" id="csharp" tabindex="-1" role="dialog" aria-labelledby="csharpLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="csharpLabel">C# 프로그래밍</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <img class="img-fluid" src="{% static 'single_pages/images/CSharp.jpg' %}">
+                        </div>
+                        <div class="col-lg-5">
+                            <p>WinForm을 통한 Windows Application을 개발합니다.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="django" tabindex="-1" role="dialog" aria-labelledby="djangoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id=" djangoLabel">Django & Python</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <img class="img-fluid" src="{% static 'single_pages/images/DJango.jpeg' %}">
+                        </div>
+                        <div class="col-lg-5">
+                            <p>Python 언어와 Django Web Framework를 통한 Web 개발합니다.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="react" tabindex="-1" role="dialog" aria-labelledby="reactLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id=" reactLabel">React JS</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <img class="img-fluid" src="{% static 'single_pages/images/React.png' %}">
+                        </div>
+                        <div class="col-lg-5">
+                            <p>React Front Web 기술을 이용해 개발합니다.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed-bottom">
+        {% include 'blog/footer.html' %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
 </body>
 </html>
