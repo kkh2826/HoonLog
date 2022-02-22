@@ -12,11 +12,16 @@
 ```
 
 ### 주요기능
-1. 로그인 / 로그아웃 (
+1. 로그인 / 로그아웃
+- django-allauth를 통해 내장된 Authenticate 기능을 활용.
 2. 게시물 입력
+- Model(Post)을 만들고 GenericView를 활용한 CRUD 기능 생성.
+- markdownx, crispy_forms를 활용한 POST입력 
 3. 댓글 구현 (대댓글 X)
+- Model(Comment)를 만들고 GenericView를 활용한 CRUD기능 생성.
 4. Pagination
 5. Tagging
+- Model(Tag)를 활용.
 
 ### 추후 업데이트 요소
 1. Docker 입히기
